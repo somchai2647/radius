@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:dbname=radius;host=127.0.0.1';
+$dsn = 'mysql:dbname=radius;host=127.0.0.1;chartset=utf8mb4';
 $db_user = "root";
 $db_password = "";
 try {

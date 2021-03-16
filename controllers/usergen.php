@@ -10,7 +10,7 @@ if (isset($_POST['gen'])) {
         for ($i = 1; $i <= $number; $i++) {
             $sql = "INSERT INTO radcheck(username,attribute,op,value,name,date_created) VALUES (?,?,?,?,?,?)";
             $sql2 = "INSERT INTO radusergroup VALUES (?,?,?)";
-            $sql3 = "INSERT INTO radgroupreply VALUES (?,?,?,?,?)";
+            $sql3 = "INSERT INTO radreply VALUES (?,?,?,?,?)";
             $username = $_POST['username'] . $i;
             $password = rand(1111, 9999);
             $result = query($sql, array("$username", 'Password', ':=', "$password", "$username", "$date"));

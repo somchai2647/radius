@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2021 at 07:11 PM
+-- Generation Time: Mar 16, 2021 at 05:36 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -59,7 +59,7 @@ CREATE TABLE `nas` (
   `server` varchar(64) DEFAULT NULL,
   `community` varchar(50) DEFAULT NULL,
   `description` varchar(200) DEFAULT 'RADIUS Client'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE `radacct` (
   `servicetype` varchar(32) DEFAULT NULL,
   `framedprotocol` varchar(32) DEFAULT NULL,
   `framedipaddress` varchar(15) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -103,30 +103,29 @@ CREATE TABLE `radacct` (
 
 CREATE TABLE `radcheck` (
   `id` int(11) UNSIGNED NOT NULL,
-  `username` varchar(64) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `attribute` varchar(64) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `op` char(2) CHARACTER SET utf8mb4 NOT NULL DEFAULT '==',
-  `value` varchar(253) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `name` varchar(30) CHARACTER SET utf8mb4 NOT NULL,
-  `address` varchar(30) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `email` varchar(30) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `tel` varchar(10) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `memo` varchar(30) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `date_created` varchar(20) CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `attribute` varchar(64) NOT NULL DEFAULT '',
+  `op` char(2) NOT NULL DEFAULT '==',
+  `value` varchar(253) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL,
+  `address` varchar(30) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `tel` varchar(10) DEFAULT NULL,
+  `memo` varchar(30) DEFAULT NULL,
+  `date_created` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `radcheck`
+-- Triggers `radcheck`
 --
-
-INSERT INTO `radcheck` (`id`, `username`, `attribute`, `op`, `value`, `name`, `address`, `email`, `tel`, `memo`, `date_created`) VALUES
-(2, 'somchai2647', 'Password', '!=', '1234', 'สมชาย บริบูรณ์', 'เชียงราย 57000', 'somchai@gmail.com', '0617070411', '🤣🤣😫😫', '14-03-2021'),
-(3, 'Nawapon', 'Password', '!=', '1234565', 'nawapon0', 'ifjejfioesfj0', 'nawapon@gmail.com0', '0850357781', 'test2', '14-03-2021'),
-(31, 'test1', 'Password', '!=', '6670', 'test1', NULL, NULL, NULL, NULL, '15-03-2021'),
-(32, 'test2', 'Password', ':=', '1532', 'test2', NULL, NULL, NULL, NULL, '15-03-2021'),
-(33, 'test3', 'Password', '!=', '1438', 'test3', NULL, NULL, NULL, NULL, '15-03-2021'),
-(34, 'test4', 'Password', ':=', '1545', 'test4', NULL, NULL, NULL, NULL, '15-03-2021'),
-(35, 'test5', 'Password', ':=', '5712', 'test5', 'test5test5test5test5test5test5', 'test5@gmail.com', '08555555', '🚲🚲(*￣3￣)╭o(*￣▽￣*)ブ(∪.∪ )...zzz', '15-03-2021');
+DELIMITER $$
+CREATE TRIGGER `del radreply` AFTER DELETE ON `radcheck` FOR EACH ROW DELETE FROM radreply WHERE username = OLD.username
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `del usergroup` AFTER DELETE ON `radcheck` FOR EACH ROW DELETE FROM radusergroup WHERE username = OLD.username
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -140,7 +139,7 @@ CREATE TABLE `radgroupcheck` (
   `attribute` varchar(64) NOT NULL DEFAULT '',
   `op` char(2) NOT NULL DEFAULT '==',
   `value` varchar(253) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `radgroupcheck`
@@ -163,7 +162,7 @@ CREATE TABLE `radgroupreply` (
   `attribute` varchar(64) NOT NULL DEFAULT '',
   `op` char(2) NOT NULL DEFAULT '=',
   `value` varchar(253) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `radgroupreply`
@@ -172,12 +171,7 @@ CREATE TABLE `radgroupreply` (
 INSERT INTO `radgroupreply` (`id`, `groupname`, `attribute`, `op`, `value`) VALUES
 (1, 'student', 'Service-Type', ':=', 'Login-User'),
 (2, 'teacher', 'Service-Type', ':=', 'Login-User'),
-(3, 'director', 'Service-Type', ':=', 'Login-User\r\n'),
-(4, 'test1', 'Idle-Timeout', '30', ':='),
-(5, 'test2', 'Idle-Timeout', '30', ':='),
-(6, 'test3', 'Idle-Timeout', '30', ':='),
-(7, 'test4', 'Idle-Timeout', '30', ':='),
-(8, 'test5', 'Idle-Timeout', '30', ':=');
+(3, 'director', 'Service-Type', ':=', 'Login-User\r\n');
 
 -- --------------------------------------------------------
 
@@ -191,7 +185,7 @@ CREATE TABLE `radpostauth` (
   `pass` varchar(64) NOT NULL DEFAULT '',
   `reply` varchar(32) NOT NULL DEFAULT '',
   `authdate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -205,7 +199,7 @@ CREATE TABLE `radreply` (
   `attribute` varchar(64) NOT NULL DEFAULT '',
   `op` char(2) NOT NULL DEFAULT '=',
   `value` varchar(253) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -217,20 +211,7 @@ CREATE TABLE `radusergroup` (
   `username` varchar(64) NOT NULL DEFAULT '',
   `groupname` varchar(64) NOT NULL DEFAULT '',
   `priority` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `radusergroup`
---
-
-INSERT INTO `radusergroup` (`username`, `groupname`, `priority`) VALUES
-('Nawapon', 'student', 1),
-('somchai2647', 'student', 1),
-('test1', 'student', 1),
-('test2', 'student', 1),
-('test3', 'student', 1),
-('test4', 'student', 1),
-('test5', 'student', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables

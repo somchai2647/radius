@@ -84,7 +84,7 @@ $rows = $result->fetch();
                                     </td>
                                     <td align="center">
                                         <a href="user_profile.php?id=<?php echo $rows['id']; ?>" class="btn btn-secondary btn-sm">แก้ไข</a>
-                                        <a href="../controllers/deluser=<?php echo $rows['id']; ?>" class="btn btn-danger btn-sm">ลบ</a>
+                                        <a href="../controllers/deluser.php?user=<?php echo $rows['username']; ?>" class="btn btn-danger btn-sm">ลบ</a>
                                     </td>
                                 </tr>
 
