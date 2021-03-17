@@ -53,7 +53,7 @@
                             <textarea name="memo" id="memo" rows="3" class="form-control"></textarea>
                         </div>
                         <div class="form-group col-12">
-                            <button class="btn btn-info" type="submit" name="btnreg">เข้าสู่ระบบ</button>
+                            <button class="btn btn-info" type="submit" name="btnreg">สมัคร</button>
                         </div>
                     </div>
                 </form>
