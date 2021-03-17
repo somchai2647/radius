@@ -8,9 +8,9 @@ if (isset($_POST['btnreg'])) {
     if ($result->rowCount() != 1) {
         $sql = "INSERT INTO radcheck VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         $date = date("d-m-Y");
-        $result = query($sql, array(null, $_POST['username'], 'Password', ':=', $_POST['password'], $_POST['name'], $_POST['address'], $_POST['email'], $_POST['tel'], $_POST['memo'], $date));
-        $result2 = query("INSERT INTO radusergroup VALUES(?,?,?)", array($_POST['username'], 'student', 1));
-        $result3 = query("INSERT INTO radreply VALUES(?,?,?,?)", array(null, $_POST['username'], 'Idle-Timeout', ':=', '300'));
+        $result = query($sql, array('', $_POST['username'], 'Password', ':=', $_POST['password'], $_POST['name'], $_POST['address'], $_POST['email'], $_POST['tel'], $_POST['memo'], $date));
+        $result2 = query("INSERT INTO radusergroup VALUES(?,?,?)", array($_POST['username'], 'student', '1'));
+        $result3 = query("INSERT INTO radreply VALUES(?,?,?,?)", array('', $_POST['username'], 'Idle-Timeout', ':=', '300'));
         //ใช้ phpmyadmin triggers เพิ่มแทน
         if ($result) {
             echo "<script>alert('สมัครผู้ใช้งานสำเร็จ!');window.location='../index.php'</script>";
